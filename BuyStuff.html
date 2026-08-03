@@ -211,6 +211,23 @@ input {
 
 <input id="password" type="password" placeholder="Password">
 
+<br><br>
+
+<button onclick="checkLogin()">
+Login
+</button>
+
+</section>
+
+
+
+<section>
+
+<h2>🪙 Your Penguin Coins</h2>
+
+<p id="coinDisplay">
+Login to see your coins!
+</p>
 
 </section>
 
@@ -226,7 +243,7 @@ input {
 <script>
 
 
-let coins = {
+let coins = JSON.parse(localStorage.getItem("coins")) || {
 
 "Fiery_Fortnite_Crusher":0,
 
@@ -262,7 +279,11 @@ let passwords = {
 
 
 
-function buy(item,price){
+let currentUser = "";
+
+
+
+function checkLogin(){
 
 
 let username =
@@ -274,21 +295,76 @@ document.getElementById("password").value;
 
 
 
-if(passwords[username] != password){
+if(passwords[username] == password){
+
+
+currentUser = username;
+
+
+document.getElementById("result").innerHTML =
+"🎉 Welcome " + username + "! 🐧";
+
+
+showCoins();
+
+
+}
+
+
+else{
+
 
 document.getElementById("result").innerHTML =
 "❌ Invalid username or password";
 
-return;
+
+}
+
 
 }
 
 
 
-if(coins[username] >= price){
+
+function showCoins(){
 
 
-coins[username] -= price;
+document.getElementById("coinDisplay").innerHTML =
+
+"🪙 You have " + coins[currentUser] + " coins!";
+
+
+}
+
+
+
+
+function buy(item,price){
+
+
+
+if(currentUser == ""){
+
+
+document.getElementById("result").innerHTML =
+"🔐 Please login first!";
+
+
+return;
+
+
+}
+
+
+
+
+if(coins[currentUser] >= price){
+
+
+coins[currentUser] -= price;
+
+
+localStorage.setItem("coins", JSON.stringify(coins));
 
 
 document.getElementById("result").innerHTML =
@@ -297,11 +373,15 @@ document.getElementById("result").innerHTML =
 
 "🪑 Item: " + item + "<br><br>" +
 
-"🪙 Remaining Coins: " + coins[username] +
+"🪙 Remaining Coins: " + coins[currentUser] +
 
 "<br><br>📦 Collect your item from the Game Host tomorrow!<br><br>" +
 
 "🧾 Receipt ID: CP-" + Math.floor(Math.random()*9999);
+
+
+
+showCoins();
 
 
 }
@@ -318,7 +398,9 @@ document.getElementById("result").innerHTML =
 }
 
 
+
 }
+
 
 
 </script>
@@ -337,7 +419,6 @@ document.getElementById("result").innerHTML =
 </a>
 
 </center>
-
 
 </body>
 
