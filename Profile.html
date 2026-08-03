@@ -134,12 +134,68 @@ let params = new URLSearchParams(window.location.search);
 let player = params.get("player");
 
 
-if(player){
+let playerData = {
+
+"Fiery_Fortnite_Crusher": {
+coins: 0,
+badge: "No badges yet",
+events: "No events won",
+igloo: "Starter Igloo"
+},
+
+"Abby": {
+coins: 50,
+badge: "👑 Founder Badge",
+events: "No events won",
+igloo: "Starter Igloo"
+},
+
+"Appu": {
+coins: 100000000000,
+badge: "👑 Founder Badge + Game Master",
+events: "Creator Events",
+igloo: "Legendary Igloo"
+},
+
+"Azad": {
+coins: 0,
+badge: "No badges yet",
+events: "No events won",
+igloo: "Starter Igloo"
+},
+
+"Arnav": {
+coins: 0,
+badge: "No badges yet",
+events: "No events won",
+igloo: "Starter Igloo"
+},
+
+"Ceyone": {
+coins: 0,
+badge: "No badges yet",
+events: "No events won",
+igloo: "Starter Igloo"
+}
+
+};
+
+
+if(player && playerData[player]){
 
 document.getElementById("playerName").innerHTML = player;
 
 document.getElementById("welcome").innerHTML =
 "🎉 Welcome " + player + "!! 🐧";
+
+
+document.querySelector(".profile").innerHTML +=
+
+"<h2>🪙 Player Stats</h2>" +
+"<p>🪙 Coins: " + playerData[player].coins + "</p>" +
+"<p>🏅 Badge: " + playerData[player].badge + "</p>" +
+"<p>🎉 Events: " + playerData[player].events + "</p>" +
+"<p>🏠 Igloo: " + playerData[player].igloo + "</p>";
 
 }
 
@@ -149,7 +205,6 @@ document.getElementById("playerName").innerHTML =
 "Guest";
 
 }
-
 
 </script>
 
