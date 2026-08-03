@@ -110,21 +110,6 @@ Starter Igloo
 </div>
 
 
-<center>
-
-<a href="index.html">
-
-<button>
-⬅ Back to CP Legacy
-</button>
-
-</a>
-
-</center>
-
-
-
-
 
 <script>
 
@@ -134,77 +119,133 @@ let params = new URLSearchParams(window.location.search);
 let player = params.get("player");
 
 
-let playerData = {
 
-"Fiery_Fortnite_Crusher": {
-coins: 0,
-badge: "No badges yet",
-events: "No events won",
-igloo: "Starter Igloo"
-},
+let coins = JSON.parse(localStorage.getItem("coins")) || {
 
-"Abby": {
-coins: 50,
-badge: "👑 Founder Badge",
-events: "No events won",
-igloo: "King Castle Igloo"
-},
+"Fiery_Fortnite_Crusher":0,
 
-"Appu": {
-coins: 100000000000,
-badge: "👑 Founder Badge + Game Master",
-events: "Creator Events",
-igloo: "Legendary Igloo"
-},
+"Abby":50,
 
-"Azad": {
-coins: 0,
-badge: "No badges yet",
-events: "No events won",
-igloo: "Starter Igloo"
-},
+"Appu":100000000000,
 
-"Arnav": {
-coins: 0,
-badge: "No badges yet",
-events: "No events won",
-igloo: "Starter Igloo"
-},
+"Ceyone":0,
 
-"Ceyone": {
-coins: 0,
-badge: "No badges yet",
-events: "No events won",
-igloo: "Starter Igloo"
-}
+"Azad":0,
+
+"Arnav":0
 
 };
 
 
+
+let playerData = {
+
+
+"Fiery_Fortnite_Crusher": {
+
+badge: "No badges yet",
+
+events: "No events won",
+
+igloo: "Starter Igloo"
+
+},
+
+
+"Abby": {
+
+badge: "👑 Founder Badge",
+
+events: "No events won",
+
+igloo: "King Castle Igloo"
+
+},
+
+
+"Appu": {
+
+badge: "👑 Founder Badge + Game Master",
+
+events: "Creator Events",
+
+igloo: "Legendary Igloo"
+
+},
+
+
+"Azad": {
+
+badge: "No badges yet",
+
+events: "No events won",
+
+igloo: "Starter Igloo"
+
+},
+
+
+"Arnav": {
+
+badge: "No badges yet",
+
+events: "No events won",
+
+igloo: "Starter Igloo"
+
+},
+
+
+"Ceyone": {
+
+badge: "No badges yet",
+
+events: "No events won",
+
+igloo: "Starter Igloo"
+
+}
+
+
+};
+
+
+
 if(player && playerData[player]){
 
+
 document.getElementById("playerName").innerHTML = player;
+
 
 document.getElementById("welcome").innerHTML =
 "🎉 Welcome " + player + "!! 🐧";
 
 
+
 document.querySelector(".profile").innerHTML +=
 
 "<h2>🪙 Player Stats</h2>" +
-"<p>🪙 Coins: " + playerData[player].coins + "</p>" +
+
+"<p>🪙 Coins: " + coins[player] + "</p>" +
+
 "<p>🏅 Badge: " + playerData[player].badge + "</p>" +
+
 "<p>🎉 Events: " + playerData[player].events + "</p>" +
+
 "<p>🏠 Igloo: " + playerData[player].igloo + "</p>";
 
 }
 
+
 else{
+
 
 document.getElementById("playerName").innerHTML =
 "Guest";
 
 }
+
+
 
 </script>
 
