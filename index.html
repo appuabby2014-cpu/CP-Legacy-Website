@@ -220,8 +220,7 @@ let players = {
 
 if(players[username] == password){
 
-document.getElementById("loginResult").innerHTML =
-"🎉 Welcome " + username + "!! 🐧";
+window.location.href = "Profile.html?player=" + username;
 
 }
 
