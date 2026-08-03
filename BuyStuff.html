@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>Buy Stuff - CP Legacy</title>
+
+<style>
+
+body {
+font-family: Arial;
+background:#dff6ff;
+}
+
+header {
+background:#008cff;
+color:white;
+text-align:center;
+padding:30px;
+}
+
+section {
+background:white;
+margin:20px;
+padding:20px;
+border-radius:15px;
+}
+
+button {
+background:#008cff;
+color:white;
+border:none;
+padding:10px;
+border-radius:10px;
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>🛒 Buy Stuff!! 🐧</h1>
+
+<p>Spend your Penguin Coins and collect your items!</p>
+
+</header>
+
+
+
+<section>
+
+<h2>🏰 King Castle Furniture</h2>
+
+<p>Price: 500 Coins</p>
+
+<button onclick="buy('King Castle Furniture',500)">
+Buy Now
+</button>
+
+</section>
+
+
+
+<section>
+
+<h2>🛋️ Modern Sofa</h2>
+
+<p>Price: 100 Coins</p>
+
+<button onclick="buy('Modern Sofa',100)">
+Buy Now
+</button>
+
+</section>
+
+
+
+<section>
+
+<h2>💻 Computer Desk</h2>
+
+<p>Price: 200 Coins</p>
+
+<button onclick="buy('Computer Desk',200)">
+Buy Now
+</button>
+
+</section>
+
+
+
+
+<section>
+
+<h2>🔐 Penguin Login</h2>
+
+<input id="username" placeholder="Username">
+
+<br><br>
+
+<input id="password" type="password" placeholder="Password">
+
+
+</section>
+
+
+
+
+<h2 id="result"></h2>
+
+
+
+<script>
+
+
+let coins = {
+
+"Fiery_Fortnite_Crusher":0,
+
+"Abby":50,
+
+"Appu":1000,
+
+"Ceyone":0,
+
+"Azad":0,
+
+"Arnav":0
+
+};
+
+
+
+let passwords = {
+
+"Fiery_Fortnite_Crusher":"123",
+
+"Abby":"abby001",
+
+"Appu":"appu123",
+
+"Ceyone":"ceyone123",
+
+"Azad":"azad456",
+
+"Arnav":"arnav789"
+
+};
+
+
+
+function buy(item,price){
+
+
+let username=document.getElementById("username").value;
+
+let password=document.getElementById("password").value;
+
+
+
+if(passwords[username] != password){
+
+document.getElementById("result").innerHTML=
+"❌ Invalid username or password";
+
+return;
+
+}
+
+
+
+if(coins[username] >= price){
+
+
+coins[username]-=price;
+
+
+document.getElementById("result").innerHTML=
+
+"✅ Your order has been paid!<br><br>" +
+
+"📦 Collect your item from the Game Host tomorrow!<br><br>" +
+
+"🪑 Item: "+item+"<br><br>" +
+
+"🪙 Remaining Coins: "+coins[username];
+
+
+}
+
+
+else{
+
+
+document.getElementById("result").innerHTML=
+"❌ Not enough coins!";
+
+
+}
+
+
+}
+
+
+
+</script>
+
+
+<br>
+
+
+<center>
+
+<a href="index.html">
+
+<button>
+⬅ Back to CP Legacy
+</button>
+
+</a>
+
+</center>
+
+
+
+</body>
+
+</html>
