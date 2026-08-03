@@ -169,6 +169,75 @@ Decorate your igloo with tables, computers, sofas, plants and more.
 
 
 
+<section>
+
+<h2>🐧 Penguin Login</h2>
+
+<p>
+Official members of The Paper Game Team can enter here!
+</p>
+
+<input id="username" placeholder="Username">
+
+<br><br>
+
+<input id="password" type="password" placeholder="Password">
+
+<br><br>
+
+<button onclick="login()">LOGIN NOW!</button>
+
+<h3 id="loginResult"></h3>
+
+</section>
+
+
+
+<script>
+
+function login(){
+
+let username = document.getElementById("username").value;
+let password = document.getElementById("password").value;
+
+
+let players = {
+
+"Fiery_Fortnite_Crusher": "123",
+
+"Ceyone": "ceyone123",
+
+"Abby": "abby001",
+
+"Appu": "appu123",
+
+"Azad": "azad456",
+
+"Arnav": "arnav789"
+
+};
+
+
+if(players[username] == password){
+
+document.getElementById("loginResult").innerHTML =
+"🎉 Welcome " + username + "!! 🐧";
+
+}
+
+else{
+
+document.getElementById("loginResult").innerHTML =
+"❌ Invalid username or password";
+
+}
+
+}
+
+</script>
+
+
+
 <footer>
 
 <p>© Club Penguin Legacy: The Paper Game</p>
