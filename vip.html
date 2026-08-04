@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>VIP Kingdom - Club Penguin Legacy</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial,sans-serif;
+background:linear-gradient(#ffd700,#fff4b3);
+overflow-x:hidden;
+}
+
+
+header{
+background:#d4af37;
+color:white;
+text-align:center;
+padding:30px;
+box-shadow:0 0 20px gold;
+}
+
+
+section{
+background:white;
+margin:20px;
+padding:20px;
+border-radius:20px;
+box-shadow:0 0 15px gold;
+}
+
+
+button{
+background:#d4af37;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:12px;
+font-size:16px;
+cursor:pointer;
+}
+
+
+button:hover{
+background:#b8860b;
+}
+
+
+input{
+padding:12px;
+border-radius:10px;
+border:2px solid gold;
+width:80%;
+}
+
+
+.hidden{
+display:none;
+}
+
+
+.snow{
+
+position:fixed;
+top:-20px;
+color:#fff8dc;
+font-size:25px;
+animation:fall linear infinite;
+
+}
+
+
+@keyframes fall{
+
+to{
+transform:translateY(110vh);
+}
+
+}
+
+
+.vipLogo{
+
+font-size:80px;
+
+}
+
+
+.item{
+
+background:#fff8dc;
+padding:15px;
+margin:10px;
+border-radius:15px;
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<div class="vipLogo">👑</div>
+
+<h1>VIP GOLDEN KINGDOM</h1>
+
+<p>The Royal Penguin World</p>
+
+</header>
+
+
+
+
+<div id="login">
+
+
+<section>
+
+<h2>🔐 VIP Login</h2>
+
+
+<input id="username" placeholder="Username">
+
+<br><br>
+
+<input id="password" type="password" placeholder="Password">
+
+
+<br><br>
+
+
+<button onclick="loginVIP()">
+ENTER VIP
+</button>
+
+
+<h3 id="message"></h3>
+
+
+</section>
+
+
+</div>
+
+
+
+
+
+<div id="vipWorld" class="hidden">
+
+
+<section>
+
+<h2>👑 Welcome to VIP Kingdom!</h2>
+
+<p>
+You have unlocked the Golden Penguin World!
+</p>
+
+</section>
+
+
+
+<section>
+
+<h2>📰 VIP News</h2>
+
+<p>✨ A new Royal Event has started!</p>
+
+<p>🏰 VIP Penguins can enter the Golden Castle.</p>
+
+<p>💎 More exclusive items coming soon!</p>
+
+</section>
+
+
+
+
+
+<section>
+
+<h2>🏆 VIP Badges</h2>
+
+<p>👑 Golden Penguin VIP Badge</p>
+
+<p>💎 Royal Member Badge</p>
+
+<p>⭐ VIP Founder Badge</p>
+
+</section>
+
+
+
+
+
+<section>
+
+<h2>🛒 Royal VIP Shop</h2>
+
+
+<div class="item">
+
+<h3>👑 Golden Throne</h3>
+
+<p>500 Coins</p>
+
+</div>
+
+
+
+<div class="item">
+
+<h3>💎 Diamond Table</h3>
+
+<p>750 Coins</p>
+
+</div>
+
+
+
+<div class="item">
+
+<h3>🏰 Royal Castle Furniture</h3>
+
+<p>1000 Coins</p>
+
+</div>
+
+
+
+<div class="item">
+
+<h3>✨ Crystal Lamp</h3>
+
+<p>250 Coins</p>
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+<section>
+
+<h2>🏰 VIP Features</h2>
+
+<p>🏠 Royal Igloos</p>
+
+<p>🎮 VIP Games</p>
+
+<p>🎟️ Special Events</p>
+
+</section>
+
+
+
+
+<center>
+
+<a href="Home.html">
+
+<button>
+⬅ Back to CP Legacy
+</button>
+
+</a>
+
+</center>
+
+
+
+</div>
+
+
+
+
+
+
+<script>
+
+
+let coins = JSON.parse(localStorage.getItem("coins")) || {
+
+"Fiery_Fortnite_Crusher":0,
+"Abby":50,
+"Appu":100000000000,
+"Ceyone":0,
+"Azad":0,
+"Arnav":0
+
+};
+
+
+
+let passwords={
+
+"Fiery_Fortnite_Crusher":"123",
+"Abby":"abby001",
+"Appu":"appu123",
+"Ceyone":"ceyone123",
+"Azad":"azad456",
+"Arnav":"arnav789"
+
+};
+
+
+
+function loginVIP(){
+
+
+let user=document.getElementById("username").value;
+
+let pass=document.getElementById("password").value;
+
+
+
+if(passwords[user]!=pass){
+
+document.getElementById("message").innerHTML=
+"❌ Wrong Username or Password";
+
+return;
+
+}
+
+
+
+if(coins[user]>=100){
+
+
+document.getElementById("login").style.display="none";
+
+document.getElementById("vipWorld").style.display="block";
+
+
+}
+
+
+else{
+
+
+document.getElementById("message").innerHTML=
+"❌ You need 100 coins to enter!!";
+
+
+}
+
+
+}
+
+
+
+
+
+// Golden Snowflakes
+
+for(let i=0;i<70;i++){
+
+let snow=document.createElement("div");
+
+snow.className="snow";
+
+snow.innerHTML="❄";
+
+snow.style.left=Math.random()*100+"vw";
+
+snow.style.animationDuration=(5+Math.random()*8)+"s";
+
+snow.style.opacity=Math.random();
+
+document.body.appendChild(snow);
+
+}
+
+
+</script>
+
+
+
+</body>
+
+</html>
