@@ -10,7 +10,7 @@
 body{
 margin:0;
 font-family:Arial,sans-serif;
-background:linear-gradient(#ffd700,#fff4b3);
+background:linear-gradient(#ffd700,#fff3a6);
 overflow-x:hidden;
 }
 
@@ -20,41 +20,40 @@ background:#d4af37;
 color:white;
 text-align:center;
 padding:30px;
-box-shadow:0 0 20px gold;
 }
 
 
 section{
+
 background:white;
 margin:20px;
 padding:20px;
 border-radius:20px;
 box-shadow:0 0 15px gold;
+
 }
 
 
 button{
+
 background:#d4af37;
 color:white;
 border:none;
-padding:12px 20px;
+padding:12px 25px;
 border-radius:12px;
-font-size:16px;
-cursor:pointer;
-}
+font-size:17px;
 
-
-button:hover{
-background:#b8860b;
 }
 
 
 input{
+
 padding:12px;
 border-radius:10px;
 border:2px solid gold;
-width:80%;
+
 }
+
 
 
 .hidden{
@@ -62,11 +61,12 @@ display:none;
 }
 
 
+
 .snow{
 
 position:fixed;
 top:-20px;
-color:#fff8dc;
+color:white;
 font-size:25px;
 animation:fall linear infinite;
 
@@ -82,23 +82,6 @@ transform:translateY(110vh);
 }
 
 
-.vipLogo{
-
-font-size:80px;
-
-}
-
-
-.item{
-
-background:#fff8dc;
-padding:15px;
-margin:10px;
-border-radius:15px;
-
-}
-
-
 </style>
 
 </head>
@@ -109,11 +92,9 @@ border-radius:15px;
 
 <header>
 
-<div class="vipLogo">👑</div>
+<h1>👑 VIP GOLDEN KINGDOM 👑</h1>
 
-<h1>VIP GOLDEN KINGDOM</h1>
-
-<p>The Royal Penguin World</p>
+<p>The Royal Penguin Area</p>
 
 </header>
 
@@ -132,13 +113,14 @@ border-radius:15px;
 
 <br><br>
 
+
 <input id="password" type="password" placeholder="Password">
 
 
 <br><br>
 
 
-<button onclick="loginVIP()">
+<button onclick="checkVIP()">
 ENTER VIP
 </button>
 
@@ -155,18 +137,22 @@ ENTER VIP
 
 
 
-<div id="vipWorld" class="hidden">
+
+
+<div id="vipPage" class="hidden">
+
 
 
 <section>
 
-<h2>👑 Welcome to VIP Kingdom!</h2>
+<h2>👑 Welcome VIP Penguin!</h2>
 
 <p>
-You have unlocked the Golden Penguin World!
+You have entered the Golden Kingdom!
 </p>
 
 </section>
+
 
 
 
@@ -174,11 +160,11 @@ You have unlocked the Golden Penguin World!
 
 <h2>📰 VIP News</h2>
 
-<p>✨ A new Royal Event has started!</p>
+<p>✨ A secret Royal Event is happening!</p>
 
-<p>🏰 VIP Penguins can enter the Golden Castle.</p>
+<p>🏰 VIP Penguins can visit the Golden Palace.</p>
 
-<p>💎 More exclusive items coming soon!</p>
+<p>💎 New legendary items coming soon!</p>
 
 </section>
 
@@ -188,13 +174,13 @@ You have unlocked the Golden Penguin World!
 
 <section>
 
-<h2>🏆 VIP Badges</h2>
+<h2>🏅 VIP Badges</h2>
 
-<p>👑 Golden Penguin VIP Badge</p>
+<p>👑 Founder Badge</p>
 
-<p>💎 Royal Member Badge</p>
+<p>✨ Golden Penguin Badge</p>
 
-<p>⭐ VIP Founder Badge</p>
+<p>💎 Royal VIP Badge</p>
 
 </section>
 
@@ -207,47 +193,17 @@ You have unlocked the Golden Penguin World!
 <h2>🛒 Royal VIP Shop</h2>
 
 
-<div class="item">
+<p>👑 Golden Throne - 500 coins</p>
 
-<h3>👑 Golden Throne</h3>
+<p>💎 Diamond Sofa - 1000 coins</p>
 
-<p>500 Coins</p>
+<p>🏰 Royal Castle Furniture - 2000 coins</p>
 
-</div>
-
-
-
-<div class="item">
-
-<h3>💎 Diamond Table</h3>
-
-<p>750 Coins</p>
-
-</div>
-
-
-
-<div class="item">
-
-<h3>🏰 Royal Castle Furniture</h3>
-
-<p>1000 Coins</p>
-
-</div>
-
-
-
-<div class="item">
-
-<h3>✨ Crystal Lamp</h3>
-
-<p>250 Coins</p>
-
-</div>
-
+<p>✨ Crystal Lamp - 250 coins</p>
 
 
 </section>
+
 
 
 
@@ -255,15 +211,17 @@ You have unlocked the Golden Penguin World!
 
 <section>
 
-<h2>🏰 VIP Features</h2>
+<h2>🏰 VIP Places</h2>
+
+<p>👑 Golden Palace</p>
+
+<p>🎮 VIP Arcade</p>
 
 <p>🏠 Royal Igloos</p>
 
-<p>🎮 VIP Games</p>
-
-<p>🎟️ Special Events</p>
 
 </section>
+
 
 
 
@@ -289,36 +247,57 @@ You have unlocked the Golden Penguin World!
 
 
 
+
 <script>
-
-
-let coins = JSON.parse(localStorage.getItem("coins")) || {
-
-"Fiery_Fortnite_Crusher":0,
-"Abby":50,
-"Appu":100000000000,
-"Ceyone":0,
-"Azad":0,
-"Arnav":0
-
-};
-
 
 
 let passwords={
 
+
 "Fiery_Fortnite_Crusher":"123",
+
 "Abby":"abby001",
+
 "Appu":"appu123",
+
 "Ceyone":"ceyone123",
+
 "Azad":"azad456",
+
 "Arnav":"arnav789"
+
 
 };
 
 
 
-function loginVIP(){
+
+
+let badges={
+
+
+"Fiery_Fortnite_Crusher":"No badges yet",
+
+"Abby":"👑 Founder Badge",
+
+"Appu":"👑 Founder Badge + Game Master",
+
+"Ceyone":"No badges yet",
+
+"Azad":"No badges yet",
+
+"Arnav":"No badges yet"
+
+
+};
+
+
+
+
+
+
+
+function checkVIP(){
 
 
 let user=document.getElementById("username").value;
@@ -329,21 +308,26 @@ let pass=document.getElementById("password").value;
 
 if(passwords[user]!=pass){
 
+
 document.getElementById("message").innerHTML=
+
 "❌ Wrong Username or Password";
 
+
 return;
+
 
 }
 
 
 
-if(coins[user]>=100){
+
+if(badges[user].includes("Founder Badge")){
 
 
 document.getElementById("login").style.display="none";
 
-document.getElementById("vipWorld").style.display="block";
+document.getElementById("vipPage").style.display="block";
 
 
 }
@@ -353,37 +337,48 @@ else{
 
 
 document.getElementById("message").innerHTML=
-"❌ You need 100 coins to enter!!";
+
+"❌ You need the Founder Badge to enter VIP!";
 
 
 }
 
 
+
 }
 
 
 
 
 
-// Golden Snowflakes
 
-for(let i=0;i<70;i++){
+
+// Golden snowflakes
+
+
+for(let i=0;i<80;i++){
+
 
 let snow=document.createElement("div");
 
+
 snow.className="snow";
+
 
 snow.innerHTML="❄";
 
+
 snow.style.left=Math.random()*100+"vw";
+
 
 snow.style.animationDuration=(5+Math.random()*8)+"s";
 
-snow.style.opacity=Math.random();
 
 document.body.appendChild(snow);
 
+
 }
+
 
 
 </script>
