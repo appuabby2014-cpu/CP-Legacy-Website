@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<title>D20 Jackpot - Club Penguin Legacy</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(#4db8ff,#dff6ff);
+text-align:center;
+}
+
+
+.box{
+
+background:white;
+width:350px;
+margin:50px auto;
+padding:30px;
+border-radius:20px;
+box-shadow:0 0 20px #008cff;
+
+}
+
+
+h1{
+color:#008cff;
+}
+
+
+input{
+
+padding:12px;
+margin:8px;
+border-radius:10px;
+border:1px solid gray;
+
+}
+
+
+button{
+
+background:#008cff;
+color:white;
+border:none;
+padding:12px 20px;
+border-radius:12px;
+font-size:18px;
+
+}
+
+
+#result{
+
+font-size:22px;
+font-weight:bold;
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="box">
+
+
+<h1>🎲 D20 Jackpot</h1>
+
+<p>Pay 10 coins to roll the dice!</p>
+
+
+<h2>🔐 Penguin Login</h2>
+
+
+<input id="username" placeholder="Username">
+
+<br>
+
+<input id="password" type="password" placeholder="Password">
+
+
+<br><br>
+
+
+<button onclick="rollDice()">
+🎲 Roll D20
+</button>
+
+
+<h2 id="result"></h2>
+
+
+</div>
+
+
+
+
+<center>
+
+<a href="Home.html">
+
+<button>
+⬅ Back to CP Legacy
+</button>
+
+</a>
+
+</center>
+
+
+
+
+
+<script>
+
+
+let coins = JSON.parse(localStorage.getItem("coins")) || {
+
+
+"Fiery_Fortnite_Crusher":0,
+
+"Abby":50,
+
+"Appu":100000000000,
+
+"Ceyone":0,
+
+"Azad":0,
+
+"Arnav":0
+
+
+};
+
+
+
+
+
+let passwords={
+
+
+"Fiery_Fortnite_Crusher":"123",
+
+"Abby":"abby001",
+
+"Appu":"appu123",
+
+"Ceyone":"ceyone123",
+
+"Azad":"azad456",
+
+"Arnav":"arnav789"
+
+
+};
+
+
+
+
+
+
+function rollDice(){
+
+
+let user=document.getElementById("username").value;
+
+let pass=document.getElementById("password").value;
+
+
+let result=document.getElementById("result");
+
+
+
+
+
+if(passwords[user]!=pass){
+
+result.innerHTML="❌ Wrong Username or Password";
+
+return;
+
+}
+
+
+
+
+let today=new Date().toDateString();
+
+
+
+let lastRoll=localStorage.getItem(user+"_D20");
+
+
+
+if(lastRoll==today){
+
+
+result.innerHTML=
+"⏳ Come back tomorrow to roll the dice!";
+
+
+return;
+
+
+}
+
+
+
+
+
+if(coins[user]<10){
+
+
+result.innerHTML=
+"❌ You need 10 coins to roll!";
+
+
+return;
+
+
+}
+
+
+
+
+coins[user]-=10;
+
+
+let roll=Math.floor(Math.random()*20)+1;
+
+
+
+localStorage.setItem("coins",JSON.stringify(coins));
+
+
+localStorage.setItem(user+"_D20",today);
+
+
+
+
+
+if(roll<=8){
+
+
+result.innerHTML=
+
+"🎲 You rolled: "+roll+
+
+"<br><br>❌ Nothing happened!";
+
+
+}
+
+
+
+
+else if(roll<=10){
+
+
+coins[user]+=8;
+
+
+localStorage.setItem("coins",JSON.stringify(coins));
+
+
+result.innerHTML=
+
+"🎲 You rolled: "+roll+
+
+"<br><br>🪙 You won 8 coins!";
+
+
+}
+
+
+
+
+
+else if(roll<=15){
+
+
+result.innerHTML=
+
+"🎲 You rolled: "+roll+
+
+"<br><br>🪑 You won a random furniture item!";
+
+
+}
+
+
+
+
+
+else if(roll<=19){
+
+
+coins[user]+=10;
+
+
+localStorage.setItem("coins",JSON.stringify(coins));
+
+
+result.innerHTML=
+
+"🎲 You rolled: "+roll+
+
+"<br><br>🪙 You won 10 coins!";
+
+
+}
+
+
+
+
+
+else{
+
+
+result.innerHTML=
+
+"🎲 You rolled: 20"+
+
+"<br><br>👑 JACKPOT!!!"+
+
+"<br><br>🎮 Golden X Box Won!"+
+
+"<br><br>📦 Collect your item from your Game Host tomorrow!";
+
+
+}
+
+
+
+
+}
+
+
+
+
+</script>
+
+
+
+</body>
+
+</html>
