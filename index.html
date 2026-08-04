@@ -181,6 +181,23 @@ document.body.appendChild(s);
 
 </script>
 
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+<script>
+
+const SUPABASE_URL = "https://yhccnaljtfiwdwwrdtcm.supabase.co";
+
+const SUPABASE_KEY = "YOUR_PUBLISHABLE_KEY_HERE";
+
+const supabaseClient = supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
+
+console.log("Supabase connected!");
+
+</script>
+
 </body>
 
 </html>
