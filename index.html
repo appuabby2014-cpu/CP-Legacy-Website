@@ -209,14 +209,28 @@ const { data, error } = await supabaseClient
 if(error){
 
 console.log("Error:", error);
+return;
 
 }
 
-else{
 
-console.log("Players:", data);
+let list = "";
 
-}
+data.forEach(player => {
+
+list += `
+<p>
+🐧 ${player.username}<br>
+🏅 ${player.badge || "No Badge"}<br>
+🪙 ${player.coins || 0} coins
+</p>
+<hr>
+`;
+
+});
+
+
+document.getElementById("playerList").innerHTML = list;
 
 }
 
