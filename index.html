@@ -198,6 +198,32 @@ console.log("Supabase connected!");
 
 </script>
 
+<script>
+
+async function loadPlayers(){
+
+const { data, error } = await supabaseClient
+.from("players")
+.select("*");
+
+if(error){
+
+console.log("Error:", error);
+
+}
+
+else{
+
+console.log("Players:", data);
+
+}
+
+}
+
+loadPlayers();
+
+</script>
+
 </body>
 
 </html>
