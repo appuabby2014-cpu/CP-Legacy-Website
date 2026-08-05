@@ -475,7 +475,19 @@ return;
 
 
 
-const onlinePlayers = data.filter(player => player.online === true);
+const now = new Date();
+
+const onlinePlayers = data.filter(player => {
+
+if(!player.last_seen){
+return false;
+}
+
+let lastSeen = new Date(player.last_seen);
+
+return (now - lastSeen) < 30000;
+
+});
 
 
 
@@ -497,7 +509,9 @@ list += `
 <h3>🐧 ${player.username}</h3>
 
 <p>
-${player.online ? "🟢 Online" : "⚪ Offline"}
+${(new Date() - new Date(player.last_seen)) < 30000 
+? "🟢 Online" 
+: "⚪ Offline"}
 </p>
 
 <p>
