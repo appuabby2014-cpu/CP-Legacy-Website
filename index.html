@@ -230,7 +230,10 @@ return;
 
 }
 
+const onlinePlayers = data.filter(player => player.online === true);
 
+document.getElementById("onlineCount").innerHTML =
+"🟢 Players Online: " + onlinePlayers.length;
 let list = "";
 
 data.forEach(player => {
