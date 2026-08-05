@@ -373,32 +373,6 @@ loadChat();
 }
 
 
-await supabaseClient
-
-.from("messages")
-
-.insert([
-
-{
-
-username:"Appu",
-
-message:message
-
-}
-
-]);
-
-
-
-document.getElementById("chatMessage").value = "";
-
-
-
-loadChat();
-
-
-}
 
 
 
