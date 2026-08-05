@@ -452,16 +452,23 @@ onlinePlayers.forEach(player => {
 
 list += `
 
+<div class="playerCard">
+
+<h3>🐧 ${player.username}</h3>
+
 <p>
-🐧 ${player.username}<br>
-🏅 ${player.badge || "No Badge"}<br>
-🪙 ${player.coins || 0} coins
+${player.online ? "🟢 Online" : "⚪ Offline"}
 </p>
+
+<p>
+🏅 ${player.badge || "No Badge"}
+</p>
+
+</div>
 
 <hr>
 
 `;
-
 
 });
 
