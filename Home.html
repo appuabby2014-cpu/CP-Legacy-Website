@@ -434,7 +434,27 @@ SUPABASE_KEY
 
 let playerName = new URLSearchParams(window.location.search).get("player");
 
+async function updateOnlineStatus(){
 
+if(!playerName){
+return;
+}
+
+await supabaseClient
+.from("players")
+.update({
+online:true,
+last_seen:new Date()
+})
+.eq("username", playerName);
+
+}
+
+
+updateOnlineStatus();
+
+
+setInterval(updateOnlineStatus,10000);
 
 async function loadPlayers(){
 
