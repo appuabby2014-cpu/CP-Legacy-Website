@@ -440,13 +440,17 @@ if(!playerName){
 return;
 }
 
-await supabaseClient
+const { data, error } = await supabaseClient
 .from("players")
 .update({
 online:true,
 last_seen:new Date()
 })
 .eq("username", playerName);
+
+console.log("Player:", playerName);
+console.log("Update data:", data);
+console.log("Update error:", error);
 
 }
 
