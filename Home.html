@@ -509,8 +509,8 @@ list += `
 <h3>🐧 ${player.username}</h3>
 
 <p>
-${(new Date() - new Date(player.last_seen)) < 30000 
-? "🟢 Online" 
+${player.last_seen && (new Date() - new Date(player.last_seen)) < 60000
+? "🟢 Online"
 : "⚪ Offline"}
 </p>
 
