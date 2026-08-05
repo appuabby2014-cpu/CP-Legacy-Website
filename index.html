@@ -344,17 +344,33 @@ document.getElementById("chatBox").innerHTML = chat;
 
 async function sendMessage(){
 
-
 let message = document.getElementById("chatMessage").value;
 
 
-
 if(message.trim() === ""){
-
 return;
-
 }
 
+
+const { data, error } = await supabaseClient
+.from("messages")
+.insert([
+{
+username:"Appu",
+message:message
+}
+]);
+
+
+console.log("Insert result:", data);
+console.log("Insert error:", error);
+
+
+document.getElementById("chatMessage").value = "";
+
+loadChat();
+
+}
 
 
 await supabaseClient
