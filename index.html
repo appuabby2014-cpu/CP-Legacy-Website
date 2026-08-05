@@ -210,6 +210,7 @@ console.log("Supabase connected!");
 
 </script>
 
+
 <script>
 
 async function loadPlayers(){
@@ -223,6 +224,7 @@ const { data, error } = await supabaseClient
 console.log(data);
 console.log(error);
 
+
 if(error){
 
 console.log("Error:", error);
@@ -230,33 +232,152 @@ return;
 
 }
 
+
 const onlinePlayers = data.filter(player => player.online === true);
+
 
 document.getElementById("onlineCount").innerHTML =
 "🟢 Players Online: " + onlinePlayers.length;
+
+
 let list = "";
+
 
 data.forEach(player => {
 
+
 list += `
+
 <p>
+
 🐧 ${player.username}<br>
+
 🏅 ${player.badge || "No Badge"}<br>
+
 🪙 ${player.coins || 0} coins
+
 </p>
+
 <hr>
+
 `;
+
 
 });
 
 
 document.getElementById("playerList").innerHTML = list;
 
+
 }
+
+
+
+async function loadChat(){
+
+
+const { data, error } = await supabaseClient
+
+.from("messages")
+
+.select("*")
+
+.order("created_at", { ascending:true });
+
+
+
+if(error){
+
+console.log(error);
+
+return;
+
+}
+
+
+
+let chat = "";
+
+
+
+data.forEach(msg => {
+
+
+chat += `
+
+<p>
+
+🐧 ${msg.username}: ${msg.message}
+
+</p>
+
+`;
+
+
+});
+
+
+
+document.getElementById("chatBox").innerHTML = chat;
+
+
+}
+
+
+
+
+
+async function sendMessage(){
+
+
+let message = document.getElementById("chatMessage").value;
+
+
+
+if(message.trim() === ""){
+
+return;
+
+}
+
+
+
+await supabaseClient
+
+.from("messages")
+
+.insert([
+
+{
+
+username:"Appu",
+
+message:message
+
+}
+
+]);
+
+
+
+document.getElementById("chatMessage").value = "";
+
+
+
+loadChat();
+
+
+}
+
+
 
 loadPlayers();
 
+loadChat();
+
+
 </script>
+
 
 </body>
 
