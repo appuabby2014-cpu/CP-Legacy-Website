@@ -466,7 +466,7 @@ async function loadPlayers(){
 const { data, error } = await supabaseClient
 .from("players")
 .select("*");
-
+console.log("Players from database:", data);
 
 if(error){
 console.log(error);
