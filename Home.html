@@ -308,7 +308,217 @@ document.getElementById("loginResult").innerHTML =
 
 </script>
 
+<section>
 
+<h2>🟢 Players Online</h2>
+
+<h3 id="onlineCount">
+Loading...
+</h3>
+
+<div id="playerList">
+Loading penguins...
+</div>
+
+</section>
+
+
+<section>
+
+<h2>💬 Penguin Chat</h2>
+
+<div id="chatBox">
+Loading messages...
+</div>
+
+<br>
+
+<input id="chatMessage" placeholder="Type a message...">
+
+<button onclick="sendMessage()">
+Send
+</button>
+
+</section>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+
+<script>
+
+const SUPABASE_URL = "https://yhccnaljtfiwdwwrdtcm.supabase.co";
+
+const SUPABASE_KEY = "sb_publishable_PU7x7B2L7mXBmbTaFWJ-hQ_2wD3MXMU";
+
+
+const supabaseClient = supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+
+
+let playerName = new URLSearchParams(window.location.search).get("player");
+
+
+
+async function loadPlayers(){
+
+
+const { data, error } = await supabaseClient
+.from("players")
+.select("*");
+
+
+if(error){
+console.log(error);
+return;
+}
+
+
+
+const onlinePlayers = data.filter(player => player.online === true);
+
+
+
+document.getElementById("onlineCount").innerHTML =
+"🟢 Players Online: " + onlinePlayers.length;
+
+
+
+let list = "";
+
+
+data.forEach(player => {
+
+
+list += `
+
+<p>
+🐧 ${player.username}<br>
+🏅 ${player.badge || "No Badge"}<br>
+🪙 ${player.coins || 0} coins
+</p>
+
+<hr>
+
+`;
+
+
+});
+
+
+document.getElementById("playerList").innerHTML = list;
+
+
+}
+
+
+
+
+
+async function loadChat(){
+
+
+const {data,error}=await supabaseClient
+
+.from("messages")
+
+.select("*")
+
+.order("created_at",{ascending:true});
+
+
+
+if(error){
+
+console.log(error);
+
+return;
+
+}
+
+
+
+let chat="";
+
+
+
+data.forEach(msg=>{
+
+
+chat += `
+
+<p>
+🐧 ${msg.username}: ${msg.message}
+</p>
+
+`;
+
+});
+
+
+document.getElementById("chatBox").innerHTML=chat;
+
+
+}
+
+
+
+
+async function sendMessage(){
+
+
+let message=document.getElementById("chatMessage").value;
+
+
+if(message.trim()==""){
+return;
+}
+
+
+
+await supabaseClient
+
+.from("messages")
+
+.insert([
+
+{
+
+username:playerName,
+
+message:message
+
+}
+
+]);
+
+
+
+document.getElementById("chatMessage").value="";
+
+
+loadChat();
+
+
+}
+
+
+
+
+loadPlayers();
+
+loadChat();
+
+
+// Auto update chat every 2 seconds
+
+setInterval(loadChat,2000);
+
+
+</script>
 
 <footer>
 
