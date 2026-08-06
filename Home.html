@@ -443,8 +443,8 @@ return;
 const { data, error } = await supabaseClient
 .from("players")
 .update({
-online:true,
-last_seen:new Date()
+online: true,
+last_seen: new Date().toISOString()
 })
 .eq("username", playerName);
 
