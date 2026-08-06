@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Snowball Arena</title>
+
+<style>
+
+body{
+margin:0;
+background:#7fd3ff;
+overflow:hidden;
+font-family:Arial;
+}
+
+#arena{
+position:relative;
+width:100vw;
+height:100vh;
+background:#dff7ff;
+overflow:hidden;
+border:10px solid #008cff;
+box-sizing:border-box;
+}
+
+#player{
+position:absolute;
+width:50px;
+height:50px;
+left:200px;
+top:200px;
+font-size:40px;
+user-select:none;
+transition:0.03s;
+}
+
+#hud{
+position:absolute;
+top:10px;
+left:10px;
+background:white;
+padding:10px;
+border-radius:10px;
+font-weight:bold;
+}
+
+</style>
+</head>
+
+<body>
+
+<div id="arena">
+
+<div id="hud">
+❄️ Snowball Arena<br>
+WASD = Move
+</div>
+
+<div id="player">🐧</div>
+<div id="snowContainer"></div>
+</div>
+
+<script>
+
+let x=200;
+let y=200;
+
+let keys={};
+
+let snowballs = [];
+let mouseX = 0;
+let mouseY = 0;
+
+
+document.addEventListener("mousemove", e=>{
+
+mouseX = e.clientX;
+mouseY = e.clientY;
+
+});
+document.addEventListener("keydown",e=>{
+
+keys[e.key.toLowerCase()] = true;
+
+if(e.code=="Space"){
+
+let angle = Math.atan2(
+mouseY - y,
+mouseX - x
+);
+
+
+snowballs.push({
+
+x:x+20,
+y:y+20,
+
+dx:Math.cos(angle)*8,
+dy:Math.sin(angle)*8
+
+});
+}
+
+});
+
+document.addEventListener("keyup",e=>{
+keys[e.key.toLowerCase()]=false;
+});
+
+function gameLoop(){
+
+if(keys["w"]) y-=4;
+if(keys["s"]) y+=4;
+if(keys["a"]) x-=4;
+if(keys["d"]) x+=4;
+
+
+// Arena borders
+
+if(x < 0){
+x = 0;
+}
+
+if(y < 0){
+y = 0;
+}
+
+if(x > window.innerWidth - 50){
+x = window.innerWidth - 50;
+}
+
+if(y > window.innerHeight - 50){
+y = window.innerHeight - 50;
+}
+
+document.getElementById("player").style.left=x+"px";
+document.getElementById("player").style.top=y+"px";
+
+let html="";
+
+snowballs.forEach(ball=>{
+
+ball.x += ball.dx;
+ball.y += ball.dy;
+
+html += `
+<div style="
+position:absolute;
+left:${ball.x}px;
+top:${ball.y}px;
+font-size:25px;
+">
+❄️
+</div>
+`;
+
+});
+
+document.getElementById("snowContainer").innerHTML=html;
+
+requestAnimationFrame(gameLoop);
+}
+
+gameLoop();
+
+</script>
+
+</body>
+</html>
