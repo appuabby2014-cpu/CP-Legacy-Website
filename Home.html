@@ -457,8 +457,11 @@ console.log("Update error:", error);
 
 updateOnlineStatus();
 
+loadPlayers();
 
 setInterval(updateOnlineStatus,10000);
+
+setInterval(loadPlayers,2000);
 
 async function loadPlayers(){
 
