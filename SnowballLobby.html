@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+<meta charset="UTF-8">
+<title>Snowball Dodgeball Lobby</title>
+
+<style>
+
+body{
+margin:0;
+font-family:Arial;
+background:#dff7ff;
+text-align:center;
+}
+
+header{
+
+background:#008cff;
+color:white;
+padding:25px;
+
+}
+
+h1{
+font-size:40px;
+}
+
+
+.lobby{
+
+background:white;
+margin:40px auto;
+padding:25px;
+width:500px;
+border-radius:20px;
+box-shadow:0 5px 15px rgba(0,0,0,.2);
+
+}
+
+
+#players{
+
+background:#eefaff;
+border:3px solid #008cff;
+border-radius:15px;
+padding:15px;
+min-height:100px;
+
+}
+
+
+.player{
+
+font-size:22px;
+margin:10px;
+
+}
+
+
+button{
+
+background:#008cff;
+color:white;
+border:none;
+padding:15px 30px;
+border-radius:15px;
+font-size:20px;
+cursor:pointer;
+
+}
+
+
+button:disabled{
+
+background:gray;
+cursor:not-allowed;
+
+}
+
+
+.waiting{
+
+font-size:25px;
+color:#008cff;
+
+}
+
+
+.host{
+
+color:gold;
+font-weight:bold;
+
+}
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<header>
+
+<h1>❄️ Snowball Dodgeball</h1>
+
+<h2>Lobby</h2>
+
+</header>
+
+
+
+<div class="lobby">
+
+
+<h2>🐧 Waiting for penguins..........</h2>
+
+
+<div id="players">
+
+Loading players...
+
+</div>
+
+
+<br>
+
+
+<h2 id="playerCount">
+
+Players: 0/10
+
+</h2>
+
+
+
+<p id="hostText"></p>
+
+
+<button id="startButton" disabled>
+
+START GAME
+
+</button>
+
+
+
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+const SUPABASE_URL = "https://yhccnaljtfiwdwwrdtcm.supabase.co";
+
+const SUPABASE_KEY = "sb_publishable_PU7x7B2L7mXBmbTaFWJ-hQ_2wD3MXMU";
+
+
+const supabaseClient = supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
+);
+
+// Temporary players
+// Supabase will replace this later
+
+let players=[
+
+{
+name:"Appu",
+host:true
+}
+
+];
+
+
+let currentPlayer =
+new URLSearchParams(window.location.search).get("player");
+
+
+function updateLobby(){
+
+
+let html="";
+
+
+players.forEach(player=>{
+
+
+html += `
+
+<div class="player">
+
+🐧 ${player.name}
+
+${player.host ? 
+"<span class='host'> 👑 HOST</span>"
+:""}
+
+</div>
+
+`;
+
+});
+
+
+document.getElementById("players").innerHTML=html;
+
+
+
+document.getElementById("playerCount").innerHTML=
+
+"Players: "+players.length+"/10";
+
+
+
+let start=document.getElementById("startButton");
+
+
+// Need 2 players
+
+if(players.length>=2){
+
+start.disabled=false;
+
+}
+
+else{
+
+start.disabled=true;
+
+}
+
+
+
+if(players[0].name==currentPlayer){
+
+document.getElementById("hostText").innerHTML=
+
+"👑 You are the Host";
+
+}
+
+}
+
+
+
+document.getElementById("startButton").onclick=function(){
+
+
+alert("❄️ Game Starting!");
+
+window.location.href="SnowballArena.html";
+
+
+};
+
+
+
+updateLobby();
+
+
+</script>
+
+
+</body>
+
+</html>
