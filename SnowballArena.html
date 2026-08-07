@@ -15,28 +15,19 @@ overflow:hidden;
 font-family:Arial;
 }
 
+
 #arena{
+
 position:relative;
 width:100vw;
 height:100vh;
 background:#dff7ff;
-overflow:hidden;
 border:10px solid #008cff;
 box-sizing:border-box;
-}
-
-
-#player{
-
-position:absolute;
-width:50px;
-height:50px;
-left:200px;
-top:200px;
-font-size:40px;
-user-select:none;
+overflow:hidden;
 
 }
+
 
 
 #hud{
@@ -45,38 +36,61 @@ position:absolute;
 top:10px;
 left:10px;
 background:white;
-padding:10px;
-border-radius:10px;
+padding:15px;
+border-radius:15px;
 font-weight:bold;
 z-index:10;
 
 }
 
 
-#healthBar{
 
-width:200px;
-height:20px;
-background:#ddd;
-border-radius:10px;
-overflow:hidden;
+.player{
+
+position:absolute;
+width:50px;
+height:50px;
+font-size:40px;
+user-select:none;
 
 }
 
 
-#health{
+
+.healthBar{
+
+position:absolute;
+top:-12px;
+left:0;
+width:50px;
+height:7px;
+background:red;
+border-radius:5px;
+
+}
+
+
+
+.health{
 
 height:100%;
 width:100%;
 background:limegreen;
+border-radius:5px;
 
 }
 
 
-.snowball{
+
+.name{
 
 position:absolute;
-font-size:25px;
+top:55px;
+left:-25px;
+width:100px;
+text-align:center;
+font-size:14px;
+font-weight:bold;
 
 }
 
@@ -94,138 +108,276 @@ font-size:25px;
 
 <div id="hud">
 
-❄️ Snowball Arena
+❄️ Snowball Dodgeball Arena
 <br>
 WASD = Move
-<br>
-SPACE = Throw
-
-<br><br>
-
-❤️ Health:
-
-<div id="healthBar">
-
-<div id="health"></div>
 
 </div>
+
 
 </div>
 
 
 
-<div id="player">
-🐧
-</div>
-
-
-<div id="snowContainer"></div>
-
-
-</div>
-
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 
 <script>
 
 
-let x=200;
-let y=200;
+const SUPABASE_URL =
+"https://yhccnaljtfiwdwwrdtcm.supabase.co";
 
 
-let health=100;
-
-
-let keys={};
-
-
-let snowballs=[];
-
-
-let mouseX=0;
-let mouseY=0;
+const SUPABASE_KEY =
+"sb_publishable_PU7x7B2L7mXBmbTaFWJ-hQ_2wD3MXMU";
 
 
 
-document.addEventListener("mousemove",e=>{
-
-mouseX=e.clientX;
-mouseY=e.clientY;
-
-});
-
-
-
-document.addEventListener("keydown",e=>{
-
-
-keys[e.key.toLowerCase()]=true;
-
-
-
-if(e.code=="Space"){
-
-
-let angle=Math.atan2(
-
-mouseY-y,
-
-mouseX-x
-
+const supabaseClient =
+supabase.createClient(
+SUPABASE_URL,
+SUPABASE_KEY
 );
 
 
 
-snowballs.push({
+let currentPlayer =
+new URLSearchParams(window.location.search)
+.get("player");
 
-x:x+20,
-y:y+20,
 
-dx:Math.cos(angle)*8,
-dy:Math.sin(angle)*8
+
+let roomID = "lobby1";
+
+
+
+if(!currentPlayer){
+
+currentPlayer="Unknown";
+
+}
+
+
+
+let x = 200;
+
+let y = 200;
+
+
+
+let health = 100;
+
+
+
+let players = {};
+
+
+
+let keys = {};
+
+// =============================
+// PLAYER MOVEMENT
+// =============================
+
+
+document.addEventListener("keydown", e=>{
+
+keys[e.key.toLowerCase()] = true;
 
 });
+
+
+document.addEventListener("keyup", e=>{
+
+keys[e.key.toLowerCase()] = false;
+
+});
+
+
+
+
+// =============================
+// CREATE / UPDATE OUR PLAYER
+// =============================
+
+
+async function updateMyPlayer(){
+
+
+const {data,error}=await supabaseClient
+.from("snowball_game")
+.upsert({
+
+room_id: roomID,
+username: currentPlayer,
+health: health,
+alive: true,
+x: Math.floor(x),
+y: Math.floor(y)
+
+},
+{
+onConflict:"room_id,username"
+});
+
+
+if(error){
+
+console.log("UPDATE ERROR:",error);
+
+}
 
 
 }
 
 
 
+
+// =============================
+// LOAD ALL PLAYERS
+// =============================
+
+
+async function loadPlayers(){
+
+
+const {data,error}=await supabaseClient
+.from("snowball_game")
+.select("*")
+.eq("room_id",roomID);
+
+
+
+if(error){
+
+console.log("LOAD PLAYERS ERROR:",error);
+return;
+
+}
+
+
+
+players={};
+
+
+
+data.forEach(player=>{
+
+
+players[player.username]=player;
+
+
+
 });
 
 
 
+drawPlayers();
 
-document.addEventListener("keyup",e=>{
 
-keys[e.key.toLowerCase()]=false;
+}
+
+
+
+
+
+// =============================
+// DRAW PENGUINS
+// =============================
+
+
+function drawPlayers(){
+
+
+document.querySelectorAll(".player")
+.forEach(e=>e.remove());
+
+
+
+Object.values(players).forEach(player=>{
+
+
+
+let div=document.createElement("div");
+
+
+div.className="player";
+
+
+div.style.left=player.x+"px";
+
+div.style.top=player.y+"px";
+
+
+
+div.innerHTML=`
+
+<div class="healthBar">
+
+<div class="health"
+
+style="width:${player.health}%">
+
+</div>
+
+</div>
+
+
+🐧
+
+
+<div class="name">
+
+${player.username}
+
+</div>
+
+`;
+
+
+
+document.getElementById("arena")
+.appendChild(div);
+
+
 
 });
 
 
 
+}
 
+
+
+
+
+// =============================
+// GAME LOOP
+// =============================
 
 
 function gameLoop(){
 
 
-
-// Movement
-
-
-if(keys["w"]) y-=4;
-
-if(keys["s"]) y+=4;
-
-if(keys["a"]) x-=4;
-
-if(keys["d"]) x+=4;
+if(keys["w"])
+y-=4;
 
 
+if(keys["s"])
+y+=4;
 
 
-// Borders
+if(keys["a"])
+x-=4;
+
+
+if(keys["d"])
+x+=4;
+
+
+
+// borders
 
 
 if(x<0)
@@ -236,91 +388,15 @@ if(y<0)
 y=0;
 
 
-if(x>window.innerWidth-50)
-x=window.innerWidth-50;
+if(x>window.innerWidth-60)
+x=window.innerWidth-60;
 
 
-if(y>window.innerHeight-50)
-y=window.innerHeight-50;
-
-
-
-
-
-document.getElementById("player").style.left=x+"px";
-
-document.getElementById("player").style.top=y+"px";
+if(y>window.innerHeight-60)
+y=window.innerHeight-60;
 
 
 
-
-
-let html="";
-
-
-
-// Move snowballs
-
-
-snowballs.forEach(ball=>{
-
-
-ball.x+=ball.dx;
-
-ball.y+=ball.dy;
-
-
-
-html+=`
-
-<div class="snowball"
-
-style="
-left:${ball.x}px;
-top:${ball.y}px;
-">
-
-❄️
-
-</div>
-
-`;
-
-
-});
-
-
-
-
-// Remove snowballs outside map
-
-
-snowballs=snowballs.filter(ball=>
-
-
-ball.x>0 &&
-ball.x<window.innerWidth &&
-ball.y>0 &&
-ball.y<window.innerHeight
-
-
-);
-
-
-
-
-document.getElementById("snowContainer").innerHTML=html;
-
-
-
-
-
-// Update health bar
-
-
-document.getElementById("health").style.width=
-
-health+"%";
 
 
 
@@ -332,7 +408,69 @@ requestAnimationFrame(gameLoop);
 
 
 
+
 gameLoop();
+
+
+
+// refresh other players
+
+setInterval(loadPlayers,500);
+
+// =============================
+// INITIAL JOIN
+// =============================
+
+
+async function startArena(){
+
+
+console.log("Joining arena as:", currentPlayer);
+
+
+
+await updateMyPlayer();
+
+
+
+await loadPlayers();
+
+
+
+}
+
+
+
+startArena();
+
+
+
+
+// =============================
+// AUTO UPDATE POSITION
+// =============================
+
+
+setInterval(()=>{
+
+updateMyPlayer();
+
+},200);
+
+
+
+
+// =============================
+// AUTO REFRESH PLAYERS
+// =============================
+
+
+setInterval(()=>{
+
+loadPlayers();
+
+},500);
+
 
 
 </script>
