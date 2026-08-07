@@ -249,18 +249,16 @@ let start=document.getElementById("startButton");
 
 // Need 2 players
 
-if(players.length>=2){
+if(players.length >= 2 && players[0].name == currentPlayer){
 
 start.disabled=false;
 
 }
-
 else{
 
 start.disabled=true;
 
 }
-
 
 
 if(players.length > 0 && players[0].name == currentPlayer){
