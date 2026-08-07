@@ -240,20 +240,13 @@ Decorate your igloo with tables, computers, sofas, plants and more.
 
 <h2>🎮 Games</h2>
 
-<a href="SnowballLobby.html">
+<a id="snowballLink">
 <button>
 ❄️ Play Snowball Dodgeball
 </button>
 </a>
 
 <br><br>
-
-<h2>🎲 D20 Jackpot</h2>
-
-<p>
-Roll the dice and test your luck!
-Pay 10 coins and try to win amazing rewards.
-</p>
 
 <a href="RollD20.html">
 <button>
@@ -664,7 +657,10 @@ loadChat();
 
 setInterval(loadChat,2000);
 
+let player = new URLSearchParams(window.location.search).get("player");
 
+document.getElementById("snowballLink").href =
+"SnowballLobby.html?player=" + player;
 </script>
 
 <footer>
