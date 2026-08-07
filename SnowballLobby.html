@@ -298,7 +298,30 @@ window.location.href="SnowballArena.html";
 };
 
 
+async function joinLobby(){
+
+const {data,error}=await supabaseClient
+.from("snowball_players")
+.insert([
+{
+username: currentPlayer,
+room_id: roomID
+}
+])
+.select();
+
+
+console.log("Joined:", data);
+console.log("Join error:", error);
+
+loadLobby();
+
+}
+
+
 joinLobby();
+
+setInterval(loadLobby,2000);
 
 
 </script>
