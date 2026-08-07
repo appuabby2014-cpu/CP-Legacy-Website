@@ -288,12 +288,15 @@ async function joinLobby(){
 
 const {data,error}=await supabaseClient
 .from("snowball_players")
-.insert([
+.upsert([
 {
 username: currentPlayer,
 room_id: roomID
 }
-])
+],
+{
+onConflict:"room_id,username"
+})
 .select();
 
 
