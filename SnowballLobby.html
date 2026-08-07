@@ -175,20 +175,6 @@ new URLSearchParams(window.location.search).get("player");
 let roomID = "lobby1";
 
 
-async function joinLobby(){
-
-await supabaseClient
-.from("snowball_players")
-.insert([
-{
-username: currentPlayer,
-room_id: roomID
-}
-]);
-
-loadLobby();
-
-}
 
 
 async function loadLobby(){
