@@ -190,6 +190,36 @@ loadLobby();
 
 }
 
+
+async function loadLobby(){
+
+const {data,error}=await supabaseClient
+.from("snowball_players")
+.select("*")
+.eq("room_id",roomID);
+
+
+if(error){
+
+console.log(error);
+return;
+
+}
+
+
+players=data.map((p,index)=>({
+
+name:p.username,
+host:index==0
+
+}));
+
+
+updateLobby();
+
+}
+
+
 function updateLobby(){
 
 
@@ -268,8 +298,7 @@ window.location.href="SnowballArena.html";
 };
 
 
-
-updateLobby();
+joinLobby();
 
 
 </script>
