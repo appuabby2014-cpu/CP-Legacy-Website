@@ -187,10 +187,12 @@ const {data,error}=await supabaseClient
 
 if(error){
 
-console.log(error);
+console.log("LOAD ERROR:", error);
 return;
 
 }
+
+console.log("LOBBY DATA:", data);
 
 
 players=data.map((p,index)=>({
