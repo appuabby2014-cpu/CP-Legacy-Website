@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html>
+
 <head>
+
 <meta charset="UTF-8">
 <title>Snowball Arena</title>
 
@@ -23,7 +25,9 @@ border:10px solid #008cff;
 box-sizing:border-box;
 }
 
+
 #player{
+
 position:absolute;
 width:50px;
 height:50px;
@@ -31,10 +35,12 @@ left:200px;
 top:200px;
 font-size:40px;
 user-select:none;
-transition:0.03s;
+
 }
 
+
 #hud{
+
 position:absolute;
 top:10px;
 left:10px;
@@ -42,52 +48,132 @@ background:white;
 padding:10px;
 border-radius:10px;
 font-weight:bold;
+z-index:10;
+
 }
 
+
+#healthBar{
+
+width:200px;
+height:20px;
+background:#ddd;
+border-radius:10px;
+overflow:hidden;
+
+}
+
+
+#health{
+
+height:100%;
+width:100%;
+background:limegreen;
+
+}
+
+
+.snowball{
+
+position:absolute;
+font-size:25px;
+
+}
+
+
 </style>
+
 </head>
+
 
 <body>
 
+
 <div id="arena">
 
+
 <div id="hud">
-❄️ Snowball Arena<br>
+
+❄️ Snowball Arena
+<br>
 WASD = Move
+<br>
+SPACE = Throw
+
+<br><br>
+
+❤️ Health:
+
+<div id="healthBar">
+
+<div id="health"></div>
+
 </div>
 
-<div id="player">🐧</div>
-<div id="snowContainer"></div>
 </div>
+
+
+
+<div id="player">
+🐧
+</div>
+
+
+<div id="snowContainer"></div>
+
+
+</div>
+
+
 
 <script>
+
 
 let x=200;
 let y=200;
 
+
+let health=100;
+
+
 let keys={};
 
-let snowballs = [];
-let mouseX = 0;
-let mouseY = 0;
+
+let snowballs=[];
 
 
-document.addEventListener("mousemove", e=>{
+let mouseX=0;
+let mouseY=0;
 
-mouseX = e.clientX;
-mouseY = e.clientY;
+
+
+document.addEventListener("mousemove",e=>{
+
+mouseX=e.clientX;
+mouseY=e.clientY;
 
 });
+
+
+
 document.addEventListener("keydown",e=>{
 
-keys[e.key.toLowerCase()] = true;
+
+keys[e.key.toLowerCase()]=true;
+
+
 
 if(e.code=="Space"){
 
-let angle = Math.atan2(
-mouseY - y,
-mouseX - x
+
+let angle=Math.atan2(
+
+mouseY-y,
+
+mouseX-x
+
 );
+
 
 
 snowballs.push({
@@ -99,71 +185,159 @@ dx:Math.cos(angle)*8,
 dy:Math.sin(angle)*8
 
 });
+
+
 }
 
+
+
 });
 
+
+
+
 document.addEventListener("keyup",e=>{
+
 keys[e.key.toLowerCase()]=false;
+
 });
+
+
+
+
+
 
 function gameLoop(){
 
+
+
+// Movement
+
+
 if(keys["w"]) y-=4;
+
 if(keys["s"]) y+=4;
+
 if(keys["a"]) x-=4;
+
 if(keys["d"]) x+=4;
 
 
-// Arena borders
 
-if(x < 0){
-x = 0;
-}
 
-if(y < 0){
-y = 0;
-}
+// Borders
 
-if(x > window.innerWidth - 50){
-x = window.innerWidth - 50;
-}
 
-if(y > window.innerHeight - 50){
-y = window.innerHeight - 50;
-}
+if(x<0)
+x=0;
+
+
+if(y<0)
+y=0;
+
+
+if(x>window.innerWidth-50)
+x=window.innerWidth-50;
+
+
+if(y>window.innerHeight-50)
+y=window.innerHeight-50;
+
+
+
+
 
 document.getElementById("player").style.left=x+"px";
+
 document.getElementById("player").style.top=y+"px";
+
+
+
+
 
 let html="";
 
+
+
+// Move snowballs
+
+
 snowballs.forEach(ball=>{
 
-ball.x += ball.dx;
-ball.y += ball.dy;
 
-html += `
-<div style="
-position:absolute;
+ball.x+=ball.dx;
+
+ball.y+=ball.dy;
+
+
+
+html+=`
+
+<div class="snowball"
+
+style="
 left:${ball.x}px;
 top:${ball.y}px;
-font-size:25px;
 ">
+
 ❄️
+
 </div>
+
 `;
+
 
 });
 
+
+
+
+// Remove snowballs outside map
+
+
+snowballs=snowballs.filter(ball=>
+
+
+ball.x>0 &&
+ball.x<window.innerWidth &&
+ball.y>0 &&
+ball.y<window.innerHeight
+
+
+);
+
+
+
+
 document.getElementById("snowContainer").innerHTML=html;
 
+
+
+
+
+// Update health bar
+
+
+document.getElementById("health").style.width=
+
+health+"%";
+
+
+
+
 requestAnimationFrame(gameLoop);
+
+
 }
+
+
 
 gameLoop();
 
+
 </script>
 
+
 </body>
+
 </html>
