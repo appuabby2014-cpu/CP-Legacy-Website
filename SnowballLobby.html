@@ -285,7 +285,10 @@ window.location.href="SnowballArena.html";
 
 
 async function joinLobby(){
-
+if(!currentPlayer){
+    console.log("No username — cannot join lobby.");
+    return;
+}
 const {data,error}=await supabaseClient
 .from("snowball_players")
 .upsert([
