@@ -283,12 +283,13 @@ window.location.href="SnowballArena.html";
 
 };
 
-
 async function joinLobby(){
+
 if(!currentPlayer){
     console.log("No username — cannot join lobby.");
     return;
 }
+
 const {data,error}=await supabaseClient
 .from("snowball_players")
 .upsert([
@@ -302,7 +303,6 @@ onConflict:"room_id,username"
 })
 .select();
 
-
 console.log("Joined:", data);
 console.log("Join error:", error);
 
@@ -312,6 +312,35 @@ console.log("Room:", roomID);
 loadLobby();
 
 }
+
+
+async function leaveLobby(){
+
+if(!currentPlayer){
+    return;
+}
+
+const {error}=await supabaseClient
+.from("snowball_players")
+.delete()
+.eq("username",currentPlayer)
+.eq("room_id",roomID);
+
+if(error){
+
+console.log("LEAVE ERROR:",error);
+
+}else{
+
+console.log("Left lobby:",currentPlayer);
+
+}
+
+}
+
+
+window.addEventListener("beforeunload",leaveLobby);
+
 
 
 joinLobby();
